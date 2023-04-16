@@ -1,0 +1,6 @@
+pymysql
+pandas
+selenium
+bs4
+numpy
+paramiko

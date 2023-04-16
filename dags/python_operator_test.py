@@ -1,19 +1,28 @@
-import datetime
-
+# 필요 모듈 import
+from datetime import datetime
 from airflow import DAG
 from airflow.operators.python import PythonOperator
-from airflow.decorators import dag
-with DAG(
-    dag_id="python_operator_test",
-    start_date=datetime.datetime(2023, 4, 3),
-    schedule="@daily",
-) as dag:
 
+# DAG 정의
+dag = DAG(
+    'DAG_test',         # DAG_Name
+    default_args={                  
+        'retries': 1,               # 실패시 재시도 횟수
+        },
+    schedule_interval='@once',      # 배치 주기
+    start_date=datetime(2023,4, 3)  # 배치 시작날짜 설정
+)
 
+# 함수 설정
+def print_test():
+    print('Hello World')
 
-    @dag.task(task_id="print_the_context")
-    def print_context():
+# task 설정
+t1 = PythonOperator( 
+    task_id = 'print_test', #task 이름 설정
+    python_callable=print_test, # 불러올 함수 설정
+    dag=dag #dag 정보 
+)
 
-        print('Hello World')
-        
-run_this = print_context()
+# task 진행
+t1 
