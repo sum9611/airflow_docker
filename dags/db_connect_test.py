@@ -11,9 +11,6 @@ with open('yamls/sql_info.yaml') as f:
 
     info = yaml.load(f, Loader=yaml.FullLoader)
 
-
-
-
 # DAG 정의
 dag = DAG(
     'db_connect_test',        
