@@ -1,9 +1,42 @@
+# 파티션 제거 
+ALTER TABLE batting_info TRUNCATE PARTITION p20230408;
+
+
 create table if not exists player_info(
 	player_id INT auto_increment not null ,
 	player_name varchar(10) not null,
 	player_birth DATE,
 	primary Key (player_id)
 )
+
+create table if not exists pitching_info(
+	yyyymmdd int not null comment  '날짜' ,
+	player_name varchar(10) not null comment  '선수이름',
+	player_birth DATE not null comment  '선수 생년월일',
+	team varchar(10) not null comment  '소속팀',
+	today_type varchar(10) comment '승, 패, 홀, 세',
+	IP int comment '이닝',
+	TBF int comment '상대한 타자 수',
+	H int comment  '피안타',
+	R int comment '실점',
+	ER int comment '자책점',
+	BB int comment '볼넷',
+	HBP int comment '데드볼',
+	K int comment '삼진',
+	HR int comment '피홈런',
+	`GO-FO` varchar(10) comment'땅볼 수,플라이볼 수',
+	`PIT-S` varchar(10) comment'투구 수,스트라이크 수',
+	`IR-IS`varchar(10) comment'승계주자, 승계주자득점',
+	GSC int comment '투수 평가 점수',
+	ERA	decimal(4,2) comment '평균자책점',
+	WHIP varchar(10) comment '이닝당 출루허용률',
+	LI decimal(5,2) comment  '승부 영향 중요도',
+	WPA decimal(5,3) comment '승리 확률 기여도',
+	RE24 decimal(5,3) comment  '기대득점 차이값',
+	primary key(yyyymmdd, player_name, player_birth)
+);
+
+
 
 drop table batting_info ;
 
@@ -403,8 +436,6 @@ ALTER TABLE batting_info PARTITION BY RANGE(`yyyymmdd`)(
 	PARTITION p20231231 VALUES LESS THAN (20240101)
 );
 
-# 파티션 제거 
-ALTER TABLE batting_info TRUNCATE PARTITION p20230408;
 
 
 
