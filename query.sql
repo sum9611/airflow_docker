@@ -68,6 +68,17 @@ create table if not exists batting_info(
 	primary key(yyyymmdd, player_name, player_birth)
 );
 
+
+## 신규 선수 찾기 
+select * from player_info A right outer join (
+select player_birth , player_name  from batting_info bi 
+group by player_birth , player_name
+union 
+select player_birth , player_name  from pitching_info pi2 
+group by player_birth , player_name)B on A.player_name  = B.player_name and A.player_birth  = B.player_birth;
+
+
+
 ALTER TABLE batting_info PARTITION BY RANGE(`yyyymmdd`)(
 	PARTITION p20230101 VALUES LESS THAN (20230102),
 	PARTITION p20230102 VALUES LESS THAN (20230103),
