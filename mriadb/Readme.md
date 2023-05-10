@@ -16,3 +16,7 @@ FLUSH PRIVILEGES;
 
 ## 정보확인 
 select User, Host from mysql.user;
+
+## 한글데이터를 넣을 경우 에러가 발생할 수 있다. 
+## 명령어로 해결
+ALTER TABLE 테이블명 CONVERT TO CHARSET UTF8

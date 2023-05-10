@@ -1,13 +1,15 @@
 # 파티션 제거 
 ALTER TABLE batting_info TRUNCATE PARTITION p20230408;
 
+# utf8설정 
+ALTER TABLE weekly_batting_info CONVERT TO CHARSET UTF8;
 
 create table if not exists player_info(
 	player_id INT auto_increment not null ,
 	player_name varchar(10) not null,
 	player_birth DATE,
 	primary Key (player_id)
-)
+);
 
 create table if not exists pitching_info(
 	yyyymmdd int not null comment  '날짜' ,
@@ -28,7 +30,7 @@ create table if not exists pitching_info(
 	`PIT-S` varchar(10) comment'투구 수,스트라이크 수',
 	`IR-IS`varchar(10) comment'승계주자, 승계주자득점',
 	GSC int comment '투수 평가 점수',
-	ERA	decimal(4,2) comment '평균자책점',
+	ERA	decimal(5,2) comment '평균자책점',
 	WHIP varchar(10) comment '이닝당 출루허용률',
 	LI decimal(5,2) comment  '승부 영향 중요도',
 	WPA decimal(5,3) comment '승리 확률 기여도',
@@ -66,6 +68,33 @@ create table if not exists batting_info(
 	WPA decimal(5,3) comment '승리 확률 기여도',
 	RE24 decimal(5,3) comment  '기대득점 차이값',
 	primary key(yyyymmdd, player_name, player_birth)
+);
+
+
+## 타자 주별 집계 테이블
+create table if not exists weekly_batting_info(
+	week varchar(10) not null comment  '주차' ,
+	player_name varchar(10) not null comment  '선수이름',
+	player_birth DATE not null comment  '선수 생년월일',
+	team varchar(10) not null comment  '소속팀',
+	TPA int comment  '타석',
+	RTPA double comment '규정타석',
+	AB int comment  '타수',
+	R int comment  '득점',
+	H int comment  '안타',
+	HR int comment  '홈런',
+	RBI int comment  '타점' ,
+	BB int comment  '볼넷',
+	HBP int comment  '데드볼',
+	SO int comment  '삼진',
+	`GO` int comment  '삼진아웃',
+	FO int comment  '-',
+	PIT int comment  '-',
+	GDP int comment  '병살타',
+	LOB int comment  '잔루',
+	`AVG` decimal(5,3) comment  '타율',
+	game_count int comment '소속팀의 경기 수',
+	primary key(week, player_name, player_birth)
 );
 
 
