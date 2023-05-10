@@ -17,7 +17,7 @@ create table if not exists pitching_info(
 	player_birth DATE not null comment  '선수 생년월일',
 	team varchar(10) not null comment  '소속팀',
 	today_type varchar(10) comment '승, 패, 홀, 세',
-	IP int comment '이닝',
+	IP double comment '이닝',
 	TBF int comment '상대한 타자 수',
 	H int comment  '피안타',
 	R int comment '실점',
@@ -93,6 +93,27 @@ create table if not exists weekly_batting_info(
 	GDP int comment  '병살타',
 	LOB int comment  '잔루',
 	`AVG` decimal(5,3) comment  '타율',
+	game_count int comment '소속팀의 경기 수',
+	primary key(week, player_name, player_birth)
+);
+
+## 투수 주별 집계 테이블
+create table if not exists weekly_pitching_info(
+	week varchar(10) not null comment  '주차' ,
+	player_name varchar(10) not null comment  '선수이름',
+	player_birth DATE not null comment  '선수 생년월일',
+	team varchar(10) not null comment  '소속팀',
+	`today_type` varchar(10) DEFAULT NULL COMMENT '승, 패, 홀, 세',
+  `IP` double DEFAULT NULL COMMENT '이닝',
+  `RIP` double default null COMMENT '규정이닝',
+  `TBF` int(11) DEFAULT NULL COMMENT '상대한 타자 수',
+  `H` int(11) DEFAULT NULL COMMENT '피안타',
+  `R` int(11) DEFAULT NULL COMMENT '실점',
+  `ER` int(11) DEFAULT NULL COMMENT '자책점',
+  `BB` int(11) DEFAULT NULL COMMENT '볼넷',
+  `HBP` int(11) DEFAULT NULL COMMENT '데드볼',
+  `K` int(11) DEFAULT NULL COMMENT '삼진',
+  `HR` int(11) DEFAULT NULL COMMENT '피홈런',
 	game_count int comment '소속팀의 경기 수',
 	primary key(week, player_name, player_birth)
 );
